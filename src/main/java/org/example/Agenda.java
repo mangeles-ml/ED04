@@ -1,5 +1,6 @@
 package org.example;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -7,8 +8,8 @@ import java.util.List;
 /**
  * Lista de contactos
  */
-public class Agenda {
-    private List<Contacto> contacts; // Lista de Contacto
+public class Agenda implements OperacionesAgenda {
+    private List<Persona> contacts; // Lista de Contacto
 
     /**
      * Constructor de la lista de contactos
@@ -22,18 +23,19 @@ public class Agenda {
      * @param name
      * @param phone
      */
+    @Override
     public void addContact(String name, String phone) {
         boolean exists = false;
-        for (Contacto c : contacts) {
-            if (c.getName().equalsIgnoreCase(name)) {
+        for (Persona c : contacts) {
+            if (c.getInformacionContacto().getName().equalsIgnoreCase(name)) {
                 exists = true;
-                c.getPhones().add(phone);
+                c.getInformacionContacto().getPhones().add(phone);
                 break;
             }
         }
 
         if (!exists) {
-            Contacto newContact = new Contacto(name, phone);
+            Persona newContact = new Persona(name, phone);
             contacts.add(newContact);
         }
     }
@@ -42,13 +44,14 @@ public class Agenda {
      * Borrar un contacto de la lista de contactos
      * @param name
      */
+    @Override
     public void removeContact(String name) {
-        Iterator<Contacto> it = contacts.iterator();
+        Iterator<Persona> it = contacts.iterator();
 
         while (it.hasNext()) {
-            Contacto c = it.next();
+            Persona c = it.next();
 
-            if (c.getName().equalsIgnoreCase(name)) {
+            if (c.getInformacionContacto().getName().equalsIgnoreCase(name)) {
                 it.remove();
             }
         }
@@ -60,10 +63,11 @@ public class Agenda {
      * @param oldPhone teléfono antiguo del contacto que hay que modificar
      * @param newPhone teléfono nuevo
      */
+    @Override
     public void modifyPhoneNumber(String name, String oldPhone, String newPhone) {
-        for (Contacto c : contacts) {
-            if (c.getName().equalsIgnoreCase(name)) {
-                List<String> phones = c.getPhones();
+        for (Persona c : contacts) {
+            if (c.getInformacionContacto().getName().equalsIgnoreCase(name)) {
+                List<String> phones = c.getInformacionContacto().getPhones();
 
                 int index = phones.indexOf(oldPhone);
 
@@ -78,7 +82,7 @@ public class Agenda {
      * Obtener todos los contactos de la lista de contactos
      * @return los contactos de la lista de contactos
      */
-    public List<Contacto> getContacts() {
+    public List<Persona> getContacts() {
         return this.contacts;
     }
 }
