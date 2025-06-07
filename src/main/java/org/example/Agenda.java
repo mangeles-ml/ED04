@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Lista de contactos
  */
-public class Agenda implements OperacionesAgenda {
+public class Agenda implements IntAgenda {
     private List<Persona> contacts; // Lista de Contacto
 
     /**
@@ -82,6 +82,7 @@ public class Agenda implements OperacionesAgenda {
      * Obtener todos los contactos de la lista de contactos
      * @return los contactos de la lista de contactos
      */
+    @Override
     public List<Persona> getContacts() {
         return this.contacts;
     }
